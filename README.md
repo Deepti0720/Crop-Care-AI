@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="assets/banner.png" width="100%">
-</p>
-
 ## 🌿 CropCare AI
 
 # AI-Powered Smart Crop Disease Detection and Treatment Recommendation System
