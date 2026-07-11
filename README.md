@@ -1,12 +1,19 @@
-
+<p align="center">
+  <img src="assets/banner.png" width="100%">
+</p>
 
 ## 🌿 CropCare AI
+
 # AI-Powered Smart Crop Disease Detection and Treatment Recommendation System
-Python
-TensorFlow
-Streamlit
-Theme
-Status
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange)
+
+![Streamlit](https://img.shields.io/badge/Streamlit-App-red)
+
+![License](https://img.shields.io/badge/License-MIT-green)
+
+![Status](https://img.shields.io/badge/Status-Completed-brightgreen)
 
 [Artificial Intelligence in Agriculture]
 
