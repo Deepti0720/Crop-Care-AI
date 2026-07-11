@@ -1,0 +1,169 @@
+"""
+Home page for CropCare AI
+This file exists to provide the main dashboard and landing page of the application.
+It displays feature cards, statistics, and information about the project.
+It is automatically loaded as the first page in the Streamlit multi-page app.
+"""
+
+import streamlit as st
+import plotly.express as px
+import pandas as pd
+from utils import get_prediction_history, translate_text
+
+
+st.markdown("""
+<div style="
+background: linear-gradient(135deg,#2E7D32,#66BB6A);
+padding:35px;
+border-radius:20px;
+text-align:center;
+color:white;
+">
+<h1>🌱 CropCare AI</h1>
+<h3>AI Powered Crop Disease Detection & Smart Farming Assistant</h3>
+<p>Detect crop diseases instantly using Artificial Intelligence and receive treatment recommendations.</p>
+</div>
+""", unsafe_allow_html=True)
+
+st.write("")
+
+
+# Get current language
+language = st.session_state.language
+lang_code = "en" if language == "English" else "hi"
+
+
+
+# Feature cards
+st.markdown("## " + translate_text("Features", lang_code))
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("""
+    <div class="card">
+        <h3>📷 Disease Detection</h3>
+        <p>Upload or capture images of crop leaves for instant disease diagnosis using our AI model.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div class="card">
+        <h3>💊 Treatment Recommendations</h3>
+        <p>Get detailed treatment plans including organic and chemical options for detected diseases.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col3:
+    st.markdown("""
+    <div class="card">
+        <h3>🌤️ Weather Advice</h3>
+        <p>Receive farming advice based on local weather conditions to optimize crop care.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("""
+    <div class="card">
+        <h3>🎤 Voice Assistant</h3>
+        <p>Ask questions about crop diseases and treatments using voice commands in English or Hindi.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+
+
+
+
+st.markdown("---")
+
+# Statistics section
+st.markdown("## " + translate_text("Statistics", lang_code))
+
+# Get prediction history
+history_df = get_prediction_history()
+
+# Calculate statistics
+total_predictions = len(history_df)
+unique_diseases = len(history_df['disease'].unique()) if total_predictions > 0 else 0
+avg_confidence = history_df['confidence'].str.replace('%', '').astype(float).mean() if total_predictions > 0 else 0
+
+# Display statistics
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.metric(
+        translate_text("Total Predictions", lang_code), 
+        total_predictions
+    )
+
+with col2:
+    st.metric(
+        translate_text("Unique Diseases", lang_code), 
+        unique_diseases
+    )
+
+with col3:
+    st.metric(
+        translate_text("Average Confidence", lang_code), 
+        f"{avg_confidence:.2f}%"
+    )
+
+with col4:
+    st.metric(
+        translate_text("Supported Crops", lang_code), 
+        "8+"
+    )
+
+st.markdown("---")
+
+# Disease distribution chart
+if total_predictions > 0:
+    st.markdown("## " + translate_text("Disease Distribution", lang_code))
+    
+    # Prepare data for chart
+    disease_counts = history_df['disease'].value_counts().reset_index()
+    disease_counts.columns = ['Disease', 'Count']
+    
+    # Create pie chart
+    fig = px.pie(
+        disease_counts, 
+        values='Count', 
+        names='Disease',
+        title=translate_text("Distribution of Detected Diseases", lang_code),
+        color_discrete_sequence=px.colors.sequential.Greens
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("---")
+
+# About project section
+st.markdown("## " + translate_text("About CropCare AI", lang_code))
+
+col1, col2 = st.columns([2, 1])
+
+with col1:
+    st.markdown("""
+    CropCare AI is an advanced crop disease detection system that leverages deep learning 
+    and computer vision to help farmers identify and treat plant diseases quickly and accurately.
+    
+    ### How It Works
+    1. **Image Capture**: Upload or capture an image of the affected plant
+    2. **AI Analysis**: Our MobileNetV2-based model analyzes the image
+    3. **Disease Identification**: The system identifies the disease with high accuracy
+    4. **Treatment Recommendations**: Detailed treatment plans are provided
+    
+    ### Technology Stack
+    * **Frontend**: Streamlit
+    * **Machine Learning**: TensorFlow/Keras with MobileNetV2
+    * **Computer Vision**: OpenCV
+    * **Language Support**: Deep Translator
+    """)
+    
+with col2:
+    st.image("assets/banner.jpg", use_container_width=True)
+st.markdown("---")
+st.markdown("© 2023 CropCare AI. All rights reserved.")
