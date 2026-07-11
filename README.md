@@ -62,44 +62,8 @@ Contextual Awareness: Integrates real-time weather APIs to dynamically alter tre
 | 📜 **Prediction History** | Local CSV logging of all past scans with dates and confidence. | Tracks crop health over time. |
 | 📴 **Offline Core AI** | Disease prediction engine requires no internet connection. | Functionality in remote farmlands. |
 
-🔄 Workflow
-The following diagram illustrates the end-to-end user journey from image capture to actionable treatment:
-graph TD
-    A[📷 User Uploads/Captures Leaf Image] --> B[⚙️ Image Preprocessing & Resizing]
-    B --> C[🧠 MobileNetV2 AI Model Inference]
-    C --> D[📈 Confidence Score Calculation]
-    D --> E{🟢 Confidence > 60%?}
-    E -- Yes --> F[🔍 Disease Identified]
-    E -- No --> G[⚠️ Low Confidence: Request Better Image]
-    F --> H[📋 Retrieve Disease Database]
-    H --> I[💊 Display Treatment & Prevention]
-    I --> J[🌤️ Fetch Weather Context]
-    J --> K[📝 Generate Comprehensive Report]
-    K --> L[💾 Save to History & Download]
 
-🗺️ Application Routing
-CropCare AI is built on a robust Streamlit multi-page architecture, ensuring clean separation of concerns:
 
-🏠 Home (1_Home.py): The central dashboard. Displays project statistics, feature highlights, and quick-start steps.
-🔍 Disease Detection (2_Disease_Detection.py): The core engine. Handles file uploads, camera input, triggers the TensorFlow model, and renders the detailed treatment UI.
-🌤️ Weather (3_Weather.py): Connects to OpenWeatherMap API, parses JSON, calculates rain probability, and renders context-aware farming advice.
-📱 QR Scanner (4_QR_Scanner.py): Utilizes OpenCV and PyZbar to decode QR codes from uploaded images or camera feeds.
-🎙️ Voice Assistant (5_Voice_Assistant.py): Interfaces with SpeechRecognition for STT and gTTS for TTS, routing through a localized NLP keyword matcher.
-📊 History (6_History.py): Reads the local prediction_history.csv using Pandas and renders a clean, sortable data table.
-ℹ️ About (7_About.py): Project documentation, tech stack details, and future roadmap.
-
-🖥️ Prototype Functionality
-Initiation: The user opens the app and is greeted by a localized dashboard.
-Data Input: The user navigates to "Disease Detection" and selects the camera tab. They snap a photo of a diseased leaf.
-Processing: The image is instantly resized to 
-224×224
- pixels, normalized to 
-[0,1]
-, and passed to the .keras model.
-Inference: The model outputs a softmax probability array (e.g., [0.05, 0.92, 0.03]).
-Presentation: The UI maps the highest probability (92%) to Tomato___Late_Blight. A matplotlib confidence bar chart is rendered.
-Enrichment: The app queries the local config.py dictionary for "Tomato Late Blight" and populates tabs for Symptoms, Organic Treatment (e.g., Copper spray), and Chemical Treatment (e.g., Mandipropamid).
-Logging: The result, timestamp, and image name are automatically appended to prediction_history.csv.
 
 🛠️ Tech Stack
 | Technology | Purpose in CropCare AI |
