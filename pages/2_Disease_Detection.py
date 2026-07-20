@@ -65,11 +65,11 @@ with col1:
     if uploaded_file is not None:
         image_to_analyze = uploaded_file
         image_name = uploaded_file.name
-        st.image(uploaded_file, caption=translate_text("Uploaded Image", lang_code), width="stretch")
+        st.image(uploaded_file, caption=translate_text("Uploaded Image", lang_code), width=500)
     elif camera_image is not None:
         image_to_analyze = camera_image
         image_name = f"camera_capture_{int(time.time())}.jpg"
-        st.image(camera_image, caption=translate_text("Captured Image", lang_code),width="stretch")
+        st.image(camera_image, caption=translate_text("Captured Image", lang_code),width=500)
 
 with col2:
     st.markdown("### " + translate_text("Analysis", lang_code))
