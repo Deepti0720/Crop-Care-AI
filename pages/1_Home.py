@@ -19,7 +19,7 @@ st.markdown("---")
 
 st.image(
     "https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=1200",
-    use_container_width=True
+    use_container_width=500
 )
 
 st.markdown("---")
